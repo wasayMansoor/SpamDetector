@@ -30,7 +30,7 @@ public class Controller {
     private HashMap<String,Integer> numHamWords = new HashMap<String,Integer>();
     private HashMap<String,Double> spamFreq = new HashMap<String, Double>();
     private HashMap<String,Integer> numSpamWords = new HashMap<String,Integer>();
-    private HashMap<String,Integer> specificSpamWord = new HashMap<String,Integer>();
+    private HashMap<String, Double> specificSpamWord = new HashMap<String, Double>();
 
     double truePostivesCount = 0;
     double falsePositivesCount = 0;
@@ -60,6 +60,21 @@ public class Controller {
     public void test(ActionEvent event){
         testingProcess(testHamDir);
         testingProcess(testSpamDir);
+        System.out.println(testFilesCount);
+        System.out.println(truePostivesCount + " " + falsePositivesCount + " " + trueNegativesCount);
+
+        // calculate and format accuracy and precision
+        DecimalFormat df = new DecimalFormat("0.00000");
+        acc = (truePostivesCount + trueNegativesCount)/testFilesCount;
+        Accuracy.setText(df.format(acc));
+
+        prec = truePostivesCount/ (falsePositivesCount + trueNegativesCount);
+        Precision.setText(df.format(prec));
+
+        // add values to table columns
+        FileName.setCellValueFactory(new PropertyValueFactory<TestFile, String>("filename"));
+        ActualClass.setCellValueFactory(new PropertyValueFactory<TestFile, String>("actualClass"));
+        SpamProbability.setCellValueFactory(new PropertyValueFactory<TestFile, Double>("spamProbability"));
     }
 
 
@@ -229,12 +244,12 @@ public class Controller {
 
             // iterate through temp and insert word list into WordCount Map
             for (Map.Entry<String,Integer> entry: temp.entrySet()){
-                if (specificSpamWord.containsKey(entry.getKey())){
-                    int oldCount = specificSpamWord.get(entry.getKey());
-                    specificSpamWord.put(entry.getKey(), oldCount + 1);
+                if (numSpamWords.containsKey(entry.getKey())){
+                    int oldCount = numSpamWords.get(entry.getKey());
+                    numSpamWords.put(entry.getKey(), oldCount + 1);
                 }else{
                     //System.out.println(entry.getKey());
-                    specificSpamWord.put(entry.getKey(), 1);
+                    numSpamWords.put(entry.getKey(), 1);
                 }
             }
 
@@ -243,7 +258,7 @@ public class Controller {
 
             // Calculate W|Spam Frequency and put in Map
             // # of spam files containing Word / # of spam files
-            for (Map.Entry<String,Integer> entry: specificSpamWord.entrySet()){
+            for (Map.Entry<String,Integer> entry: numSpamWords.entrySet()){
                 double pWS = (double)entry.getValue()/(double)filesInDir.length;
                 spamFreq.put(entry.getKey(),pWS);
             }
