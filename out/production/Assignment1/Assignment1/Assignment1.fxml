@@ -20,10 +20,10 @@
     <Label text="Precision: " GridPane.columnIndex="0" GridPane.rowIndex="2" />
     <TextField fx:id="Precision" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-    <!--
+
     <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="7">
         <Button onAction="#test" prefWidth="134.0" text="Test" />
         <Button onAction="#train" prefWidth="134.0" text="Train" />
     </HBox>
-    -->
+
 </GridPane>

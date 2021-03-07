@@ -2,6 +2,7 @@ package Assignment1;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -40,9 +41,6 @@ public class Controller {
     double testFilesCount;
 
     private File mainDir;
-    public Controller (File dir) {
-        this.mainDir = dir;
-    }
     File trainHam1Dir = new File(mainDir + "/train/ham");
     File trainHam2Dir = new File(mainDir + "/train/ham2");
     File trainSpamDir = new File(mainDir + "/train/spam");
