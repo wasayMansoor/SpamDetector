@@ -26,10 +26,10 @@ public class Controller {
     @FXML
     private TextField Precision;
 
-    private HashMap<String,Double> hamFreq = new HashMap<String, Double>();
-    private HashMap<String,Integer> numHamWords = new HashMap<String,Integer>();
-    private HashMap<String,Double> spamFreq = new HashMap<String, Double>();
-    private HashMap<String,Integer> numSpamWords = new HashMap<String,Integer>();
+    private HashMap<String, Double> hamFreq = new HashMap<String, Double>();
+    private HashMap<String, Integer> numHamWords = new HashMap<String, Integer>();
+    private HashMap<String, Double> spamFreq = new HashMap<String, Double>();
+    private HashMap<String, Integer> numSpamWords = new HashMap<String, Integer>();
     private HashMap<String, Double> specificSpamWord = new HashMap<String, Double>();
 
     double truePostivesCount = 0;
@@ -157,6 +157,7 @@ public class Controller {
                 ->  n += Math.log(1-P(S|W)) - Math.log(Pr(S|W)
            P(S|F) = 1/(1+Math.pow(Math.E,n)                     */
 
+
         Scanner scanner = new Scanner(file);
         while(scanner.hasNext()){
             String word = scanner.next();
@@ -277,3 +278,4 @@ public class Controller {
 
     }
 }
+
