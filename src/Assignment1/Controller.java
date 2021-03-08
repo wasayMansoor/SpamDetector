@@ -13,8 +13,10 @@ import java.util.*;
 
 
 public class Controller {
+    String mainDir = System.getProperty("user.dir");
 
-    private File mainDir= new File("/D:/OTU/Winter2021/CSCI2020U/Assignment1/data");
+
+    //private File mainDir= new File("/D:/OTU/Winter2021/CSCI2020U/Assignment1/data");
 
     @FXML
     private TableView<TestFile> table;
@@ -43,12 +45,12 @@ public class Controller {
     double prec;
     double testFilesCount;
 
-    File trainHam1Dir = new File(mainDir + "/train/ham");
-    File trainHam2Dir = new File(mainDir + "/train/ham2");
-    File trainSpamDir = new File(mainDir + "/train/spam");
+    File trainHam1Dir = new File(mainDir + "/data/train/ham");
+    File trainHam2Dir = new File(mainDir + "/data/train/ham2");
+    File trainSpamDir = new File(mainDir + "/data/train/spam");
 
-    File testHamDir = new File(mainDir + "/test/ham");
-    File testSpamDir = new File(mainDir + "/test/spam");
+    File testHamDir = new File(mainDir + "/data/test/ham");
+    File testSpamDir = new File(mainDir + "/data/test/spam");
 
 
     public void train(ActionEvent event) {
