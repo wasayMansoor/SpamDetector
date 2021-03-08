@@ -14,12 +14,12 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("Assignment1.fxml"));
         primaryStage.setTitle("Assignment 1 Spam");
-        primaryStage.setScene(new Scene(root, 900, 600));
+        primaryStage.setScene(new Scene(root, 500, 600));
         primaryStage.show();
     }
 
 
-    public static void main(String[] args, File dir) {
+    public static void main(String[] args) {
         launch(args);
     }
 }
