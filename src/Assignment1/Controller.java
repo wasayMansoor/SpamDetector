@@ -13,6 +13,9 @@ import java.util.*;
 
 
 public class Controller {
+
+    private File mainDir= new File("");
+
     @FXML
     private TableView<TestFile> table;
     @FXML
@@ -40,7 +43,6 @@ public class Controller {
     double prec;
     double testFilesCount;
 
-    private File mainDir;
     File trainHam1Dir = new File(mainDir + "/train/ham");
     File trainHam2Dir = new File(mainDir + "/train/ham2");
     File trainSpamDir = new File(mainDir + "/train/spam");
