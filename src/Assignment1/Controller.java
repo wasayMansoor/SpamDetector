@@ -14,7 +14,7 @@ import java.util.*;
 
 public class Controller {
 
-    private File mainDir= new File("");
+    private File mainDir= new File("/D:/OTU/Winter2021/CSCI2020U/Assignment1/data");
 
     @FXML
     private TableView<TestFile> table;
