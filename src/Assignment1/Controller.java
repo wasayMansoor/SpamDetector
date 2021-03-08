@@ -10,10 +10,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.io.*;
 import java.text.DecimalFormat;
 import java.util.*;
+import javafx.stage.DirectoryChooser;
 
 
 public class Controller {
-    String mainDir = System.getProperty("user.dir");
 
 
     //private File mainDir= new File("/D:/OTU/Winter2021/CSCI2020U/Assignment1/data");
@@ -38,45 +38,57 @@ public class Controller {
     private HashMap<String, Integer> numSpamWords = new HashMap<String, Integer>();
     private HashMap<String, Double> specificSpamWord = new HashMap<String, Double>();
 
-    double truePostivesCount = 0;
+    double truePositivesCount = 0;
     double falsePositivesCount = 0;
     double trueNegativesCount = 0;
     double acc;
     double prec;
     double testFilesCount;
 
-    File trainHam1Dir = new File(mainDir + "/data/train/ham");
-    File trainHam2Dir = new File(mainDir + "/data/train/ham2");
-    File trainSpamDir = new File(mainDir + "/data/train/spam");
-
-    File testHamDir = new File(mainDir + "/data/test/ham");
-    File testSpamDir = new File(mainDir + "/data/test/spam");
 
 
-    public void train(ActionEvent event) {
-        trainingProcess(trainHam1Dir);
-        trainingProcess(trainHam2Dir);
-        trainingProcess(trainSpamDir);
+    public void train(ActionEvent event){
+
+        DirectoryChooser dc = new DirectoryChooser();
+        dc.setInitialDirectory(new File("."));
+        File md = dc.showDialog(null);
+
+        if (md != null){
+            trainingProcess(md);
+
+            // P(S|W) = P(W|S) / ( P(W|S) + P(W|H) ) and store in map
+            trainSpamGivenWord();
+        }else{
+            System.out.println("Directory not valid");
+        }
     }
 
     public void test(ActionEvent event){
-        testingProcess(testHamDir);
-        testingProcess(testSpamDir);
-        System.out.println(testFilesCount);
-        System.out.println(truePostivesCount + " " + falsePositivesCount + " " + trueNegativesCount);
+        // launch dialog for directory chooser
+        DirectoryChooser dc = new DirectoryChooser();
+        dc.setInitialDirectory(new File("."));
+        File md = dc.showDialog(null);  // main directory
 
-        // calculate and format accuracy and precision
-        DecimalFormat df = new DecimalFormat("0.00000");
-        acc = (truePostivesCount + trueNegativesCount)/testFilesCount;
-        Accuracy.setText(df.format(acc));
+        if (md != null){
+            testingProcess(md);
+            System.out.println(testFilesCount);
+            System.out.println(truePositivesCount + " " + falsePositivesCount + " " + trueNegativesCount);
 
-        prec = truePostivesCount/ (falsePositivesCount + trueNegativesCount);
-        Precision.setText(df.format(prec));
+            // calculate and format accuracy and precision
+            DecimalFormat df = new DecimalFormat("0.00000");
+            acc = (truePositivesCount + trueNegativesCount)/testFilesCount;
+            Accuracy.setText(df.format(acc));
 
-        // add values to table columns
-        FileName.setCellValueFactory(new PropertyValueFactory<TestFile, String>("FileName"));
-        ActualClass.setCellValueFactory(new PropertyValueFactory<TestFile, String>("ActualClass"));
-        SpamProbability.setCellValueFactory(new PropertyValueFactory<TestFile, Double>("SpamProbability"));
+            prec = truePositivesCount/ (falsePositivesCount + trueNegativesCount);
+            Precision.setText(df.format(prec));
+
+            // add values to table columns
+            FileName.setCellValueFactory(new PropertyValueFactory<TestFile, String>("FileName"));
+            ActualClass.setCellValueFactory(new PropertyValueFactory<TestFile, String>("ActualClass"));
+            SpamProbability.setCellValueFactory(new PropertyValueFactory<TestFile, Double>("SpamProbability"));
+        }else{
+            System.out.println("Directory not valid");
+        }
     }
 
 
@@ -175,15 +187,15 @@ public class Controller {
 
         // accumulate accuracy/precision statistics
         if (file.getParent().contains("spam") && pSF > threshold){
-            truePostivesCount += 1;
+            truePositivesCount ++;
         }
         if (file.getParent().contains("ham") && pSF > threshold){
-            falsePositivesCount += 1;
+            falsePositivesCount ++;
         }
         if (file.getParent().contains("ham") && pSF < threshold){
-            trueNegativesCount += 1;
+            trueNegativesCount ++;
         }
-        testFilesCount += 1;
+        testFilesCount ++;
         return pSF;
     }
 
