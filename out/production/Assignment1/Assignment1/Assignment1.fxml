@@ -11,7 +11,7 @@
         <columns>
             <TableColumn fx:id="FileName" text="File"/>
             <TableColumn fx:id="ActualClass" text="Actual Class"/>
-            <TableColumn fx:id="SpamProbability" text="SpamProbability"/>
+            <TableColumn fx:id="SpamProbability" text="Spam Probability"/>
         </columns>
     </TableView>
 

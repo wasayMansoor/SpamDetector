@@ -74,9 +74,9 @@ public class Controller {
         Precision.setText(df.format(prec));
 
         // add values to table columns
-        FileName.setCellValueFactory(new PropertyValueFactory<TestFile, String>("filename"));
-        ActualClass.setCellValueFactory(new PropertyValueFactory<TestFile, String>("actualClass"));
-        SpamProbability.setCellValueFactory(new PropertyValueFactory<TestFile, Double>("spamProbability"));
+        FileName.setCellValueFactory(new PropertyValueFactory<TestFile, String>("FileName"));
+        ActualClass.setCellValueFactory(new PropertyValueFactory<TestFile, String>("ActualClass"));
+        SpamProbability.setCellValueFactory(new PropertyValueFactory<TestFile, Double>("SpamProbability"));
     }
 
 
@@ -129,7 +129,8 @@ public class Controller {
             for (int i = 0; i < filesInDir.length; i++){
                 testingProcess(filesInDir[i]);
             }
-        }else if (file.exists()){
+        }
+        else if (file.exists()){
             double spamProbability = 0.0;
             // calculate spam probability of test files
             try {
@@ -148,6 +149,7 @@ public class Controller {
                 table.getItems().add(new TestFile(file.getName(),df.format(spamProbability), "spam"));
             }
         }
+
     }
 
     public double testProbability(File file) throws FileNotFoundException {
