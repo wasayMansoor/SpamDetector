@@ -117,13 +117,6 @@ public class Controller {
                     e.printStackTrace();
                 }
                 System.out.println("DONE Folder: ../spam");
-            }else if(file.getName().equals("ham2")){
-                try {
-                    trainHamFrequency(file);
-                }catch (IOException e){
-                    e.printStackTrace();
-                }
-                System.out.println("DONE Folder: ../ham2");
             }else {
                 File[] filesInDir = file.listFiles();
                 for (int i = 0; i < filesInDir.length; i++){
@@ -156,9 +149,9 @@ public class Controller {
             DecimalFormat df = new DecimalFormat("0.00000");
 
             if (file.getParent().contains("ham")){
-                table.getItems().add(new TestFile(file.getName(), df.format(spamProbability), "ham"));
+                table.getItems().add(new TestFile(file.getName(), "ham", df.format(spamProbability)));
             }else{
-                table.getItems().add(new TestFile(file.getName(),df.format(spamProbability), "spam"));
+                table.getItems().add(new TestFile(file.getName(), "spam",df.format(spamProbability)));
             }
         }
 
@@ -168,11 +161,6 @@ public class Controller {
         double pSF;
         double n = 0.0;
         double threshold = 0.5;
-        /* Explanation:
-           For each word
-                ->  n += Math.log(1-P(S|W)) - Math.log(Pr(S|W)
-           P(S|F) = 1/(1+Math.pow(Math.E,n)                     */
-
 
         Scanner scanner = new Scanner(file);
         while(scanner.hasNext()){
