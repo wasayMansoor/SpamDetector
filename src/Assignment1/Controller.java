@@ -30,6 +30,8 @@ public class Controller {
     private TextField Accuracy;
     @FXML
     private TextField Precision;
+    @FXML
+    private TextField CurrentProcess;
 
     //Used hashmaps to delete any duplicate entries
     private HashMap<String, Double> hamFreq = new HashMap<String, Double>();
@@ -57,7 +59,7 @@ public class Controller {
         if (md != null){
             trainingProcess(md);
 
-            // P(S|W) = P(W|S) / ( P(W|S) + P(W|H) ) and store in map
+            // store P(S|W) in map
             trainSpamGivenWord();
         }else{
             System.out.println("Directory not valid");
@@ -83,6 +85,7 @@ public class Controller {
         if (md != null){
             testingProcess(md);
             System.out.println(testFilesCount);
+            CurrentProcess.setText("Finished Testing Files");
             System.out.println(truePositivesCount + " " + falsePositivesCount + " " + trueNegativesCount);
 
             // calculate and format accuracy and precision
@@ -101,22 +104,25 @@ public class Controller {
             System.out.println("Directory not valid");
         }
     }
-
+    //Only checks training files
     public void trainingProcess (File file){
         if (file.isDirectory()){
             if (file.getName().equals("ham")){
                 try {
-                    trainHamFrequency(file);
+                    THF(file);
                 }catch (IOException e){
                     e.printStackTrace();
                 }
+                //tried to implement a live search in the GUI
+                CurrentProcess.setText("Finished Ham Files");
                 System.out.println("Finished ham scan");
             }else if(file.getName().equals("spam")) {
                 try {
-                    trainSpamFrequency(file);
+                    TSF(file);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                CurrentProcess.setText("Finished Training Files");
                 System.out.println("Finished spam scan");
             }else {
                 File[] filesInDir = file.listFiles();
@@ -126,32 +132,31 @@ public class Controller {
             }
         }
     }
-
+    //Only checks test files
     public void testingProcess(File file){
         if (file.isDirectory()){
-
-            //process all files recursively
             File[] filesInDir = file.listFiles();
+            //checks through each file via recursion
             for (int i = 0; i < filesInDir.length; i++){
                 testingProcess(filesInDir[i]);
             }
         }
         else if (file.exists()){
             double spamProbability = 0.0;
-            // calculate spam probability of test files
+            //determine probability of spam
             try {
-                spamProbability = testProbability(file);
+                spamProbability = PSF(file);
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            // format data and add to table data
+            //Rounds to 5th decimal place as assignment asks for
             DecimalFormat df = new DecimalFormat("0.00000");
-
+            //checks for ham
             if (file.getParent().contains("ham")){
                 table.getItems().add(new TestFile(file.getName(), "ham", df.format(spamProbability)));
             }else{
+                //checks for spam
                 table.getItems().add(new TestFile(file.getName(), "spam",df.format(spamProbability)));
             }
         }
@@ -167,7 +172,7 @@ public class Controller {
         return false;
     }
 
-    public double testProbability(File file) throws FileNotFoundException {
+    public double PSF(File file) throws FileNotFoundException {
         double pSF;
         double n = 0.0;
         double threshold = 0.5;
@@ -200,15 +205,16 @@ public class Controller {
         testFilesCount ++;
         return pSF;
     }
-
-    public void trainHamFrequency(File file) throws IOException{
+    //Method to train the ham frequency
+    public void THF(File file) throws IOException{
         File[] filesInDir = file.listFiles();
+        CurrentProcess.setText("Searching Ham Files...");
         System.out.println("Number of ham files to search: " + filesInDir.length);
         System.out.println("Please wait until (Finished) prompt");
         for (int i = 0; i < filesInDir.length; i++){
             HashMap<String, Integer> temp = new HashMap<String, Integer>();
 
-            // Gather list of words in specific file and put in temporary Map
+            //Mapping words for ham
             Scanner scanner = new Scanner(filesInDir[i]);
             while(scanner.hasNext()){
                 String word = scanner.next();
@@ -219,7 +225,7 @@ public class Controller {
                 }
             }
 
-            // iterate through temp and insert word list into WordCount Map
+            //Transfer word list from temp to numHamWords count
             for (Map.Entry<String,Integer> entry: temp.entrySet()){
                 if (numHamWords.containsKey(entry.getKey())){
                     int oldCount = numHamWords.get(entry.getKey());
@@ -230,23 +236,24 @@ public class Controller {
             }
             // empty the temp for future use
             temp.clear();
-            // P(W|H) = probability that the word appears in ham file/ num ham files
+            // P(W|H) = num ham files containing word / num ham files
             for (Map.Entry<String,Integer> entry: numHamWords.entrySet()){
                 double pWH = (double)entry.getValue()/(double)filesInDir.length;
                 hamFreq.put(entry.getKey(),pWH);
             }
         }
     }
-
-    public void trainSpamFrequency(File file) throws IOException{
+    //Method to train the spam frequency
+    public void TSF(File file) throws IOException{
 
         File[] filesInDir = file.listFiles();
+        CurrentProcess.setText("Searching Spam Files...");
         System.out.println("Number of spam files to search: " + filesInDir.length);
         System.out.println("Please wait until (Finished) prompt");
         for (int i = 0; i < filesInDir.length; i++){
             HashMap<String, Integer> temp = new HashMap<String, Integer>();
 
-            // Gather list of words in specific file and put in temporary Map
+            //Mapping words for ham
             Scanner scanner = new Scanner(filesInDir[i]);
             while(scanner.hasNext()){
                 String word = scanner.next();
@@ -257,7 +264,7 @@ public class Controller {
                 }
             }
 
-            // iterate through temp and insert word list into WordCount Map
+            //Transfer word list from temp to numSpamWords count
             for (Map.Entry<String,Integer> entry: temp.entrySet()){
                 if (numSpamWords.containsKey(entry.getKey())){
                     int oldCount = numSpamWords.get(entry.getKey());
@@ -268,11 +275,10 @@ public class Controller {
                 }
             }
 
-            // Clear word list so temporary Map can be reused for later files
+            // empty the temp for future use
             temp.clear();
 
-            // Calculate W|Spam Frequency and put in Map
-            // # of spam files containing Word / # of spam files
+            //P(W|S) = (num of files with word / num of spam files)
             for (Map.Entry<String,Integer> entry: numSpamWords.entrySet()){
                 double pWS = (double)entry.getValue()/(double)filesInDir.length;
                 spamFreq.put(entry.getKey(),pWS);
