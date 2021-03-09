@@ -6,8 +6,10 @@ The accuracy and the precision are determined by the training data.
 
 ![image](https://user-images.githubusercontent.com/71033432/110409616-a1a10200-8098-11eb-86fc-555b684f1b4d.png)
 
-The Base Projected has been improved by changing how the gui looks, added a current process dialog and added a directory chooser when training
-or testing the emails.
+Improvements:
+1) Changed how the gui looks
+2) Current Process Dialog
+3) Director Chooser
 
 To Run:
 1) Project can be downloaded by clicking on the green code button then click on download zip.
