@@ -4,8 +4,12 @@ The program can be trained using old emails that may or may not be spam and will
 the current version is.
 The accuracy and the precision are determined by the training data.
 
-The Base Projected has been upgraded by improving how the gui looks and added a directory chooser when training
-or testing the emails.
+![image](https://user-images.githubusercontent.com/71033432/110409616-a1a10200-8098-11eb-86fc-555b684f1b4d.png)
+
+Improvements:
+1) Changed how the gui looks
+2) Current Process Dialog
+3) Director Chooser
 
 To Run:
 1) Project can be downloaded by clicking on the green code button then click on download zip.
