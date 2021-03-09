@@ -16,7 +16,7 @@
     <TextField fx:id="Accuracy" prefWidth="202.0" scaleX="0.5" translateX="10.0" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-background-color: beige; -fx-font: 15px GeorgiaProCondBlack"/>
     <Label text="Precision: " GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font: 15px GeorgiaProCondBlack"/>
     <TextField fx:id="Precision" scaleX="0.5" translateX="10.0" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-background-color: beige; -fx-font: 15px GeorgiaProCondBlack"/>
-
+    <TextField fx:id="CurrentProcess"  GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-background-color: beige; -fx-font: 15px GeorgiaProCondBlack"/>
 
     <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="7">
         <Button onAction="#test" prefWidth="134.0" text="Test" style="-fx-background-color: lightBlue; -fx-font: 15px GeorgiaProCondBlack"/>
