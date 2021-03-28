@@ -18,3 +18,6 @@ To Run:
 4) Click test and select testing data directory.
 5) Emails should be displayed on the table and probability of it being spam, program will also display
 how accurate/precise the current version of the program is.
+
+Collaborators:
+Abdulwasay Mansoor And Nicholas Coles
