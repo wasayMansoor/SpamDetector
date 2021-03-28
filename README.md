@@ -1,3 +1,6 @@
+Collaborators:
+Abdulwasay Mansoor And Nicholas Coles
+
 This Project is a spam detector that uses an unigram approach to filter out incoming spams by counting
 every word and then associated with whether an email is spam or not.
 The program can be trained using old emails that may or may not be spam and will calculate how accurate/precise
@@ -18,6 +21,3 @@ To Run:
 4) Click test and select testing data directory.
 5) Emails should be displayed on the table and probability of it being spam, program will also display
 how accurate/precise the current version of the program is.
-
-Collaborators:
-Abdulwasay Mansoor And Nicholas Coles
