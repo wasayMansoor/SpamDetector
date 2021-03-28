@@ -1,5 +1,7 @@
-Collaborators:
+#Collaborators:
 Abdulwasay Mansoor And Nicholas Coles
+
+##Description:
 
 This Project is a spam detector that uses an unigram approach to filter out incoming spams by counting
 every word and then associated with whether an email is spam or not.
